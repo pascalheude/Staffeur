@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.assistanceinformatiquetoulouse.roulezrose.staffeur.LoginActivity">
+    tools:context="com.assistanceinformatiquetoulouse.roulezrose.staffeur.StaffeurActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -34,8 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    android:id="@+id/nom_utilisateur"
+                <EditText
+                    android:id="@+id/editTextNomUtilisateur"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/mot_de_passe"
+                    android:id="@+id/editTextMotDePasse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
@@ -63,8 +63,14 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <CheckBox
+                android:id="@+id/checkBoxMemoriser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mémoriser mes identifiants" />
+
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/buttonConnexion"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,5 +79,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

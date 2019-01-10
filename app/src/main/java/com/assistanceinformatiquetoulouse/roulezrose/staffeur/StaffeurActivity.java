@@ -206,6 +206,7 @@ public class StaffeurActivity extends AppCompatActivity {
             SimpleDateFormat lSimpleDateFormat;
             Date lDate;
             PresenceRandonnee lPresenceRandonnee;
+            Presence lPresence;
 
             try {
                 ArrayList<NameValuePair> lNameValuePairList = new ArrayList<NameValuePair>();
@@ -240,8 +241,21 @@ public class StaffeurActivity extends AppCompatActivity {
                     lJSONObject = lListePresences.getJSONObject(i);
                     lSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     lDate = lSimpleDateFormat.parse(lJSONObject.getString("rando_date"));
-                    // TODO Récupérer présence dans l'objet JSON
-                    lPresenceRandonnee = new PresenceRandonnee(lJSONObject.getInt("rando_id"), lDate, Presence.ABSENT);
+                    if (lJSONObject.getString("valeur").equals("absent")) {
+                        lPresence = Presence.ABSENT;
+                    }
+                    else if (lJSONObject.getString("valeur").equals("présent")) {
+                        lPresence = Presence.PRESENT;
+                    }
+                    else if (lJSONObject.getString("valeur").equals("indécis")) {
+                        lPresence = Presence.INDECIS;
+                    }
+                    else {
+                        lPresence = Presence.AUCUNE;
+                    }
+                    lPresenceRandonnee = new PresenceRandonnee(lJSONObject.getInt("rando_id"),
+                                                                                  lDate,
+                                                                                  lPresence);
                     pListePresenceRandonnee.add(lPresenceRandonnee);
                 }
             }
@@ -255,7 +269,7 @@ public class StaffeurActivity extends AppCompatActivity {
             lIntent.putExtra(getString(R.string.login), pLogin);
             lIntent.putExtra(getString(R.string.password), pPassword);
             lIntent.putExtra(getString(R.string.user_id), pUserId);
-            lIntent.putExtra("", pListePresenceRandonnee);
+            lIntent.putExtra(getString(R.string.liste_presence), pListePresenceRandonnee);
             startActivity(lIntent);
             return(true);
         }

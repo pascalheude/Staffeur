@@ -1,16 +1,17 @@
 <resources>
     <string name="app_name">Staffeur</string>
-
-    <!-- Strings related to login -->
-    <string name="prompt_email">Nom d'utilisateur</string>
+    <string name="prompt_email">Nom d\'utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_invalid_password">Mot de passe requis</string>
+    <string name="error_incorrect_password">Mot de passe incorrect</string>
+    <string name="error_field_required">Nom d\'utilisateur requis</string>
+    <!--string name="login_URL">https://192.168.0.100/roulezrose/login.php</string-->
+    <string name="login_URL">https://forum.roulezrose.com/Android/login.php</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="memorized_data">Memorized data</string>
+    <string name="user_id">user_id</string>
+    <string name="liste_presence">Liste présence</string>
 </resources>
