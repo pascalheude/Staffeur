@@ -3,14 +3,19 @@ package com.assistanceinformatiquetoulouse.roulezrose.staffeur;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -43,6 +48,7 @@ import java.util.Date;
 public class StaffeurActivity extends AppCompatActivity {
     // Attributs privées
     SharedPreferences pSharedPreferences;
+    private Toolbar pToolbar;
     private EditText pEditTextLogin;
     private static EditText pEditTextPassword;
     private CheckBox pCheckBoxMemoriser;
@@ -59,6 +65,9 @@ public class StaffeurActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staffeur);
+        pToolbar = (Toolbar) findViewById(R.id.toolbar);
+        pToolbar.setTitle(R.string.app_name);
+        setSupportActionBar(pToolbar);
         pEditTextLogin = (EditText) findViewById(R.id.editTextNomUtilisateur);
         pEditTextPassword = (EditText) findViewById(R.id.editTextMotDePasse);
         pCheckBoxMemoriser = (CheckBox) findViewById(R.id.checkBoxMemoriser);
@@ -113,6 +122,34 @@ public class StaffeurActivity extends AppCompatActivity {
         });
     }
 
+    // Méthode onCreateOptionsMenu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return(super.onCreateOptionsMenu(menu));
+    }
+
+    // Méthode onOptionsItemSelected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(this);
+                lAlertDialog.setTitle("Staff\nVersion " + this.getString(R.string.version));
+                lAlertDialog.setMessage("Compatible login version " + this.getString(R.string.login_version) + "\nPrésence des staffeurs\n© AIT 2019 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
+                lAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }});
+                // TODO Mettre un icone
+                //lAlertDialog.setIcon(R.mipmap.ic_staff);
+                lAlertDialog.create().show();
+                break;
+            default:
+                break;
+        }
+        return(true);
+
+    }
     // Méthode attemptLogin
     private void attemptLogin() {
         String login;

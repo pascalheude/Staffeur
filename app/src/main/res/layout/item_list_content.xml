@@ -9,33 +9,30 @@
             android:layout_width="60dp"
             android:layout_height="24dp"
             android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:textSize="14sp"
-            android:textColor="@color/colorGrey" >
+            android:textColor="@color/colorDarkGrey" >
         </TextView>
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="150dp"
             android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:textSize="14sp"
             android:textColor="@color/colorBlack"
             android:textStyle="bold" >
         </TextView>
-        <TextView
-            android:id="@+id/textViewPresence"
-            android:layout_width="80dp"
+        <Spinner
+            android:id="@+id/spinnerPresence"
+            android:layout_width="100dp"
             android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:textSize="14sp"
-            android:textColor="@color/colorRed" >
-        </TextView>
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center" >
+        </Spinner>
 
 </LinearLayout>

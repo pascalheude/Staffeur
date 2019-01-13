@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -52,29 +55,46 @@ public class StaffeurDetailActivity extends AppCompatActivity {
 
         // Classe ViewHolder
         public class ViewHolder extends RecyclerView.ViewHolder {
+            private int pPosition;
             public View aView;
             public TextView aRandoId;
             public TextView aDate;
-            public TextView aPresence;
+            public Spinner aPresence;
 
             public ViewHolder(View view) {
                 super(view);
                 aView = view;
                 aRandoId = (TextView) view.findViewById(R.id.textViewRandoId);
                 aDate = (TextView) view.findViewById(R.id.textViewDate);
-                aPresence = (TextView) view.findViewById(R.id.textViewPresence);
-            }
+                aPresence = (Spinner) view.findViewById(R.id.spinnerPresence);
+                ArrayAdapter<CharSequence> lArrayAdapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                        R.array.presence, R.layout.spinner_item);
+                lArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                aPresence.setAdapter(lArrayAdapter);
+                aPresence.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                        // TODO Mémoriser la nouvelle présence en fonction de la pPosition
+                        ((TextView) view).setTextColor(getColor(R.color.colorGreen));
+                        PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(pPosition);
+                        Presence lPresence = Presence.AUCUNE;
+                        lPresence.ecrirePresence(pos);
+                        lPresenceRandonnee.ecrirePresence(lPresence);
+                        pListePresenceRandonnee.set(pPosition, lPresenceRandonnee);
+                    }
 
-            @Override
-            public String toString() {
-                return super.toString() + " '" + aPresence.getText() + "'";
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
             }
         }
 
         private final ArrayList<PresenceRandonnee> pListePresenceRandonnee;
 
-        public ItemRecyclerViewAdapter(ArrayList<PresenceRandonnee> liste_presence_randonne) {
-            pListePresenceRandonnee = liste_presence_randonne;
+        public ItemRecyclerViewAdapter(ArrayList<PresenceRandonnee> liste_presence_randonnee) {
+            pListePresenceRandonnee = (ArrayList<PresenceRandonnee>) liste_presence_randonnee.clone();
         }
 
         @Override
@@ -89,10 +109,17 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             SimpleDateFormat lSimpleDateFormat;
             lSimpleDateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
             PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(position);
+            holder.pPosition = position;
             holder.aRandoId.setText(String.format("%d", lPresenceRandonnee.lireRandonneeId()));
             holder.aDate.setText(lSimpleDateFormat.format(lPresenceRandonnee.lireDate()));
-            holder.aPresence.setText(lPresenceRandonnee.lirePresence().toString());
-
+            holder.aPresence.setSelection(lPresenceRandonnee.lirePresence().position());
+            if ((position % 2) == 0) {
+                holder.aRandoId.setBackgroundColor(getColor(R.color.colorLightGrey));
+                holder.aDate.setBackgroundColor(getColor(R.color.colorLightGrey));
+                holder.aPresence.setBackgroundColor(getColor(R.color.colorLightGrey));
+            }
+            else {
+            }
             holder.aView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

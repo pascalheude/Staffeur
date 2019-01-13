@@ -31,4 +31,21 @@ public class PresenceRandonnee implements Serializable {
     public Presence lirePresence() {
         return(this.pPresence);
     }
+
+    // Méthode ecrirePresence
+    public void ecrirePresence(Presence presence) {
+        this.pPresence = presence;
+    }
+
+    // Méthode equals
+    public boolean equals(PresenceRandonnee presence_randonnee) {
+        if ((this.pPresence == presence_randonnee.pPresence) &&
+            (this.pRandoDate == presence_randonnee.pRandoDate) &&
+            (this.pRandoId == presence_randonnee.pRandoId)) {
+            return(true);
+        }
+        else {
+            return(false);
+        }
+    }
 }

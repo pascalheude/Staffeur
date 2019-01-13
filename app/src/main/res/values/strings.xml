@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Staffeur</string>
+    <string name="version">0.0.1</string>
+    <string name="login_version">1</string>
     <string name="prompt_email">Nom d\'utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion</string>
@@ -14,4 +16,10 @@
     <string name="memorized_data">Memorized data</string>
     <string name="user_id">user_id</string>
     <string name="liste_presence">Liste présence</string>
+    <string-array name="presence">
+        <item>Absent</item>
+        <item>Présent</item>
+        <item>Indécis</item>
+        <item>Aucune</item>
+    </string-array>
 </resources>

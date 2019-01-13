@@ -13,6 +13,11 @@ public enum Presence {
             this.pPresence = presence;
         }
 
+    // méthode ecrirePresence
+    public void ecrirePresence(int presence) {
+        this.pPresence = presence;
+    }
+
     // Méthode toString
     public  String toString() {
         switch(pPresence) {
@@ -26,5 +31,10 @@ public enum Presence {
                 return("Aucune");
         }
         return("");
+    }
+
+    // Méthode position
+    public int position() {
+        return(pPresence);
     }
 }

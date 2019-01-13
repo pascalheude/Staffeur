@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
-            android:layout_height="10sp" />
+            android:layout_height="10dp" />
         <TextView
             android:id="@+id/textViewStaffeur"
             android:layout_width="match_parent"
@@ -27,18 +27,32 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="10sp"
+            android:layout_height="10dp"
             android:layout_below="@+id/textViewStaffeur" />
-        <include layout="@layout/item_list" />
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/item_list"
+            android:name="com.assistanceinformatiquetoulouse.roulezrose.staffeur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="LinearLayoutManager"
+            tools:context="com.assistanceinformatiquetoulouse.roulezrose.staffeur.StaffeurDetailActivity"
+            tools:listitem="@layout/item_list_content" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMaJ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_list"
+            android:layout_gravity="center"
+            android:clickable="true"
+            app:backgroundTint="@color/colorGrey"
+            app:srcCompat="@drawable/ic_update" />
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabMaJ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_update"
-        app:backgroundTint="@color/colorLightGrey" />
 
 </LinearLayout>
