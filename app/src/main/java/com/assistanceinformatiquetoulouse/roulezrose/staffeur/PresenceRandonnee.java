@@ -8,10 +8,10 @@ public class PresenceRandonnee implements Serializable {
     // Attributs privés
     int pRandoId;
     Date pRandoDate;
-    Presence pPresence;
+    int pPresence;
 
     // Constructeur
-    public PresenceRandonnee(int rando_id, Date date, Presence presence) {
+    public PresenceRandonnee(int rando_id, Date date, int presence) {
         this.pRandoId = rando_id;
         this.pRandoDate = date;
         this.pPresence = presence;
@@ -28,12 +28,12 @@ public class PresenceRandonnee implements Serializable {
     }
 
     // Méthode lirePresence
-    public Presence lirePresence() {
+    public int lirePresence() {
         return(this.pPresence);
     }
 
     // Méthode ecrirePresence
-    public void ecrirePresence(Presence presence) {
+    public void ecrirePresence(int presence) {
         this.pPresence = presence;
     }
 

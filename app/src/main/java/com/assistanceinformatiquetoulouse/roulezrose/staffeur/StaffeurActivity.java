@@ -243,7 +243,7 @@ public class StaffeurActivity extends AppCompatActivity {
             SimpleDateFormat lSimpleDateFormat;
             Date lDate;
             PresenceRandonnee lPresenceRandonnee;
-            Presence lPresence;
+            int lPresence;
 
             try {
                 ArrayList<NameValuePair> lNameValuePairList = new ArrayList<NameValuePair>();
@@ -251,6 +251,7 @@ public class StaffeurActivity extends AppCompatActivity {
                 lNameValuePairList.add(new BasicNameValuePair(getString(R.string.password), pPassword));
                 lHttpPost.setEntity(new UrlEncodedFormEntity(lNameValuePairList));
                 lHttpResponse = lHttpClient.execute(lHttpPost);
+                // TODO Traiter les differents cas d'erreur
                 if (lHttpResponse.getStatusLine().getStatusCode() != 200) {
                     return(false);
                 }
@@ -279,20 +280,20 @@ public class StaffeurActivity extends AppCompatActivity {
                     lSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     lDate = lSimpleDateFormat.parse(lJSONObject.getString("rando_date"));
                     if (lJSONObject.getString("valeur").equals("absent")) {
-                        lPresence = Presence.ABSENT;
+                        lPresence = 0;
                     }
                     else if (lJSONObject.getString("valeur").equals("présent")) {
-                        lPresence = Presence.PRESENT;
+                        lPresence = 1;
                     }
                     else if (lJSONObject.getString("valeur").equals("indécis")) {
-                        lPresence = Presence.INDECIS;
+                        lPresence = 2;
                     }
                     else {
-                        lPresence = Presence.AUCUNE;
+                        lPresence = 3;
                     }
                     lPresenceRandonnee = new PresenceRandonnee(lJSONObject.getInt("rando_id"),
-                                                                                  lDate,
-                                                                                  lPresence);
+                                                               lDate,
+                                                               lPresence);
                     pListePresenceRandonnee.add(lPresenceRandonnee);
                 }
             }
