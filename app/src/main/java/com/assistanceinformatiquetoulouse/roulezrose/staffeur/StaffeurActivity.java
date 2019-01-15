@@ -217,6 +217,27 @@ public class StaffeurActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        // TODO Cette fonction n'est pas appelée
+        final ArrayList<PresenceRandonnee> lListePresenceRandonnee;
+        lListePresenceRandonnee = (ArrayList<PresenceRandonnee>) intent.getSerializableExtra(getString(R.string.liste_presence));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0;i < lListePresenceRandonnee.size();i++) {
+                    PresenceRandonnee lPresenceRandonnee = lListePresenceRandonnee.get(i);
+                    if (lPresenceRandonnee.equals(pListePresenceRandonnee.get(i))) {
+                        // TODO Ajouter la mise à jour la BdD
+                    }
+                    else {
+                    }
+                }
+            }
+        }).start();
+    }
+
     // Classe ConnexionAsyncTask
     private class ConnexionAsyncTask extends AsyncTask<Void, Void, Boolean> {
         // Attributs privés
@@ -293,6 +314,7 @@ public class StaffeurActivity extends AppCompatActivity {
                     }
                     lPresenceRandonnee = new PresenceRandonnee(lJSONObject.getInt("rando_id"),
                                                                lDate,
+                                                               lJSONObject.getInt("rando_type"),
                                                                lPresence);
                     pListePresenceRandonnee.add(lPresenceRandonnee);
                 }
@@ -308,6 +330,8 @@ public class StaffeurActivity extends AppCompatActivity {
             lIntent.putExtra(getString(R.string.password), pPassword);
             lIntent.putExtra(getString(R.string.user_id), pUserId);
             lIntent.putExtra(getString(R.string.liste_presence), pListePresenceRandonnee);
+            // TODO Appeler StartActivityOnResult
+            // Il faudra aussi changer l'activité StaffeurDetailActivity
             startActivity(lIntent);
             return(true);
         }

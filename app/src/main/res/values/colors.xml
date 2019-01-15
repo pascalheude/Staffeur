@@ -10,4 +10,7 @@
     <color name="colorDarkGrey">#404040</color>
     <color name="colorGreen">#138D75 </color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorRandonneeVerte">#2EEC71</color>
+    <color name="colorRandonneeBleue">#3498DB</color>
+    <color name="colorRandonneeOrange">#F39C12</color>
 </resources>

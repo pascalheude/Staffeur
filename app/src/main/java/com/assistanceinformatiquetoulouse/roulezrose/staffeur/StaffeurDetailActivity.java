@@ -1,9 +1,9 @@
 package com.assistanceinformatiquetoulouse.roulezrose.staffeur;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,9 +41,9 @@ public class StaffeurDetailActivity extends AppCompatActivity {
         pFloatingActionButtonMaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            // TODO Mettre à jour la BdD
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+                Intent lIntent = new Intent(StaffeurDetailActivity.this, StaffeurActivity.class);
+                lIntent.putExtra(getString(R.string.liste_presence), pListePresenceRandonnee);
+                finish();
             }
         });
         pLogin = getIntent().getStringExtra(getString(R.string.login));
@@ -62,6 +62,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             private int pPosition;
             public View aView;
+            public TextView aRandoType;
             public TextView aRandoId;
             public TextView aDate;
             public Spinner aPresence;
@@ -69,6 +70,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             public ViewHolder(View view) {
                 super(view);
                 aView = view;
+                aRandoType = (TextView) view.findViewById(R.id.textViewRandoType);
                 aRandoId = (TextView) view.findViewById(R.id.textViewRandoId);
                 aDate = (TextView) view.findViewById(R.id.textViewDate);
                 aPresence = (Spinner) view.findViewById(R.id.spinnerPresence);
@@ -124,8 +126,23 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             holder.aRandoId.setText(String.format("%d", lPresenceRandonnee.lireRandonneeId()));
             holder.aDate.setText(lSimpleDateFormat.format(lPresenceRandonnee.lireDate()));
             holder.aPresence.setSelection(lPresenceRandonnee.lirePresence());
+            int rando_type = lPresenceRandonnee.lireTypeRandonnee();
+            switch(rando_type) {
+                case 0 :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeVerte));
+                    break;
+                case 1 :
+                case 3 :
+                case 4 :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeBleue));
+                    break;
+                case 2 :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeOrange));
+                    break;
+                default :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorLightGrey));
+            }
             if ((position % 2) == 0) {
-                holder.aRandoId.setBackgroundColor(getColor(R.color.colorLightGrey));
                 holder.aDate.setBackgroundColor(getColor(R.color.colorLightGrey));
                 holder.aPresence.setBackgroundColor(getColor(R.color.colorLightGrey));
             }
