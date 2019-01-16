@@ -1,6 +1,5 @@
 package com.assistanceinformatiquetoulouse.roulezrose.staffeur;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class StaffeurDetailActivity extends AppCompatActivity {
     // Attributs privés
     private boolean pChargement;
+    private ProgressBar pProgressBar;
     private TextView pTextViewStaffeur;
     private View pRecyclerView;
     private ItemRecyclerViewAdapter pItemRecyclerViewAdapter;
@@ -28,6 +29,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
     private String pLogin;
     private int pUserId;
     private ArrayList<PresenceRandonnee> pListePresenceRandonnee;
+    private ArrayList<PresenceRandonnee> pListePresenceRandonneeCopie;
 
     // Méthode onCreate
     @Override
@@ -35,20 +37,48 @@ public class StaffeurDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         pChargement = true;
+        pProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        pProgressBar.setVisibility(View.INVISIBLE);
         pTextViewStaffeur = (TextView) findViewById(R.id.textViewStaffeur);
         pRecyclerView = findViewById(R.id.item_list);
         pFloatingActionButtonMaj = (FloatingActionButton) findViewById(R.id.fabMaJ);
         pFloatingActionButtonMaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent lIntent = new Intent(StaffeurDetailActivity.this, StaffeurActivity.class);
-                lIntent.putExtra(getString(R.string.liste_presence), pListePresenceRandonnee);
-                finish();
+                pProgressBar.setVisibility(View.VISIBLE);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final ArrayList<PresenceRandonnee> lListePresenceRandonnee;
+                        lListePresenceRandonnee = pItemRecyclerViewAdapter.lireListePresenceRandonnee();
+                        for (int i=0;i < lListePresenceRandonnee.size();i++) {
+                            final int i_final = i;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pProgressBar.setProgress(100 * (i_final+1) / lListePresenceRandonnee.size());
+                                }
+                            });
+                            PresenceRandonnee lPresenceRandonnee = lListePresenceRandonnee.get(i);
+                            if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(i))) {
+                            }
+                            else {
+                                // TODO Ajouter la mise à jour la BdD
+                            }
+                        }
+                    }
+                }).start();
+                pProgressBar.setVisibility(View.GONE);
+                //finish();
             }
         });
         pLogin = getIntent().getStringExtra(getString(R.string.login));
         pUserId = getIntent().getIntExtra(getString(R.string.user_id), 0);
         pListePresenceRandonnee = (ArrayList<PresenceRandonnee>) getIntent().getSerializableExtra(getString(R.string.liste_presence));
+        pListePresenceRandonneeCopie = new ArrayList<PresenceRandonnee>();
+        for (int i=0;i < pListePresenceRandonnee.size();i++) {
+            pListePresenceRandonneeCopie.add(pListePresenceRandonnee.get(i).clone());
+        }
         pTextViewStaffeur.setText(String.format("%s (%d)", pLogin, pUserId));
         pItemRecyclerViewAdapter = new ItemRecyclerViewAdapter(pListePresenceRandonnee);
         ((RecyclerView)pRecyclerView).setAdapter(pItemRecyclerViewAdapter);
@@ -104,12 +134,20 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             }
         }
 
+        // Attributs privées
         private final ArrayList<PresenceRandonnee> pListePresenceRandonnee;
 
+        // Constructeur
         public ItemRecyclerViewAdapter(ArrayList<PresenceRandonnee> liste_presence_randonnee) {
-            pListePresenceRandonnee = (ArrayList<PresenceRandonnee>) liste_presence_randonnee.clone();
+            this.pListePresenceRandonnee = (ArrayList<PresenceRandonnee>) liste_presence_randonnee;
         }
 
+        // Méthode lireListePresenceRandonnee
+        public ArrayList<PresenceRandonnee> lireListePresenceRandonnee() {
+            return(this.pListePresenceRandonnee);
+        }
+
+        // Méthode onCreateViewHolder
         @Override
         public ItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -117,11 +155,12 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             return new ItemRecyclerViewAdapter.ViewHolder(view);
         }
 
+        // Méthode onBindViewHolder
         @Override
         public void onBindViewHolder(final ItemRecyclerViewAdapter.ViewHolder holder, final int position) {
             SimpleDateFormat lSimpleDateFormat;
             lSimpleDateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-            PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(position);
+            PresenceRandonnee lPresenceRandonnee = this.pListePresenceRandonnee.get(position);
             holder.pPosition = position;
             holder.aRandoId.setText(String.format("%d", lPresenceRandonnee.lireRandonneeId()));
             holder.aDate.setText(lSimpleDateFormat.format(lPresenceRandonnee.lireDate()));
@@ -155,9 +194,10 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             });
         }
 
+        // Méthode getItemCount
         @Override
         public int getItemCount() {
-            return pListePresenceRandonnee.size();
+            return(this.pListePresenceRandonnee.size());
         }
     }
 }

@@ -53,6 +53,16 @@
             android:clickable="true"
             app:backgroundTint="@color/colorGrey"
             app:srcCompat="@drawable/ic_update" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fabMaJ"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:minHeight="5dp"
+            android:minWidth="200dp" />
     </LinearLayout>
 
 </LinearLayout>

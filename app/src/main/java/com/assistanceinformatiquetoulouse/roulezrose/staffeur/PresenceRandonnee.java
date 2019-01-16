@@ -55,4 +55,13 @@ public class PresenceRandonnee implements Serializable {
             return(false);
         }
     }
+
+    // Méthode clone
+    public PresenceRandonnee clone() {
+        PresenceRandonnee lPresenceRandonnee = new PresenceRandonnee(this.pRandoId,
+                                                                     this.pRandoDate,
+                                                                     this.pRandoType,
+                                                                     this.pPresence);
+        return(lPresenceRandonnee);
+    }
 }
