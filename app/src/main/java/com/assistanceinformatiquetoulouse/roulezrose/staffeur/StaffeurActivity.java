@@ -136,7 +136,9 @@ public class StaffeurActivity extends AppCompatActivity {
             case R.id.menu_about:
                 AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(this);
                 lAlertDialog.setTitle("Staff\nVersion " + this.getString(R.string.version));
-                lAlertDialog.setMessage("Compatible login version " + this.getString(R.string.login_version) + "\nPrésence des staffeurs\n© AIT 2019 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
+                lAlertDialog.setMessage("Compatible login version " + this.getString(R.string.login_version) +
+                        " update version " + this.getString(R.string.update_version) +
+                        "\nPrésence des staffeurs\n© AIT 2019 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
                 lAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }});

@@ -13,9 +13,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import static java.lang.Thread.sleep;
 
 // Class StaffeurDetailActivity
 public class StaffeurDetailActivity extends AppCompatActivity {
@@ -30,6 +41,52 @@ public class StaffeurDetailActivity extends AppCompatActivity {
     private int pUserId;
     private ArrayList<PresenceRandonnee> pListePresenceRandonnee;
     private ArrayList<PresenceRandonnee> pListePresenceRandonneeCopie;
+
+    // Méthode ecrirePresences
+    private String ecrirePresences(URL url) throws IOException {
+        String lStatus = "";
+        InputStream lInputStream = null;
+        try {
+            if (url.getProtocol().contains("https")) {
+                // Creer une communication https pour communiquer avec l'URL
+                HttpsURLConnection lHttpsURLConnection = (HttpsURLConnection) url.openConnection();
+                // Connexion à l'URL
+                lHttpsURLConnection.connect();
+                // Lire le flux depuis la connexion
+                lInputStream = lHttpsURLConnection.getInputStream();
+            }
+            else
+            {
+                // Creer une communication http pour communiquer avec l'URL
+                HttpURLConnection lHttpURLConnection = (HttpURLConnection) url.openConnection();
+                // Connexion à l'URL
+                lHttpURLConnection.connect();
+                // Lire le flux depuis la connexion
+                lInputStream = lHttpURLConnection.getInputStream();
+            }
+            BufferedReader lBufferedReader = new BufferedReader(new InputStreamReader(lInputStream));
+            StringBuffer lStringBuffer  = new StringBuffer();
+            String lLigne = "";
+            while((lLigne = lBufferedReader.readLine()) != null) {
+                lStringBuffer.append(lLigne);
+                lStringBuffer.append("\n");
+            }
+            lStatus = lStringBuffer.toString();
+            lBufferedReader.close();
+        }
+        catch (IOException e) {
+        }
+        finally {
+            if (lInputStream != null)
+            {
+                lInputStream.close();
+            }
+            else
+            {
+            }
+        }
+        return(lStatus);
+    }
 
     // Méthode onCreate
     @Override
@@ -63,13 +120,29 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                             if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(i))) {
                             }
                             else {
-                                // TODO Ajouter la mise à jour la BdD
+                                try {
+                                    URL lURL = new URL(String.format(getString(R.string.update_URL),
+                                                                     lPresenceRandonnee.lireRandonneeId(),
+                                                                     pUserId,
+                                                                     lPresenceRandonnee.lirePresence()));
+                                    if (ecrirePresences(lURL).equals("OK")) {
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                catch(Exception e) {
+                                }
                             }
                         }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pProgressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
                     }
                 }).start();
-                pProgressBar.setVisibility(View.GONE);
-                //finish();
             }
         });
         pLogin = getIntent().getStringExtra(getString(R.string.login));
@@ -172,11 +245,16 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                     break;
                 case 1 :
                 case 3 :
-                case 4 :
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeBleue));
                     break;
                 case 2 :
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeOrange));
+                    break;
+                case 4 :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeATheme));
+                    break;
+                case 5 :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorBlack));
                     break;
                 default :
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorLightGrey));

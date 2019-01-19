@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Staffeur</string>
-    <string name="version">0.0.1</string>
+    <string name="version">0.5.0</string>
     <string name="login_version">1</string>
+    <string name="update_version">1</string>
     <string name="prompt_email">Nom d\'utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion</string>
@@ -9,8 +10,9 @@
     <string name="error_invalid_password">Mot de passe requis</string>
     <string name="error_incorrect_password">Mot de passe incorrect</string>
     <string name="error_field_required">Nom d\'utilisateur requis</string>
-    <!--string name="login_URL">https://192.168.0.100/roulezrose/login.php</string-->
-    <string name="login_URL">https://forum.roulezrose.com/Android/login.php</string>
+    <!--string name="login_URL">https://192.168.0.100/roulezrose/Android/Staffeur/login.php</string-->
+    <string name="login_URL">https://forum.roulezrose.com/Android/Staffeur/login.php</string>
+    <string name="update_URL">https://forum.roulezrose.com/Android/Staffeur/update.php?rando_id=%d&amp;user_id=%d&amp;valeur=%d</string>
     <string name="login">login</string>
     <string name="password">password</string>
     <string name="memorized_data">Memorized data</string>
