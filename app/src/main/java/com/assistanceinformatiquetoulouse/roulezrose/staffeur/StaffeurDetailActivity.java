@@ -41,15 +41,17 @@ public class StaffeurDetailActivity extends AppCompatActivity {
     private int pUserId;
     private ArrayList<PresenceRandonnee> pListePresenceRandonnee;
     private ArrayList<PresenceRandonnee> pListePresenceRandonneeCopie;
+    private ArrayList<TextView> pListeTextView;
 
     // Méthode ecrirePresences
-    private String ecrirePresences(URL url) throws IOException {
+    private String ecrirePresences(String url) {
         String lStatus = "";
         InputStream lInputStream = null;
         try {
-            if (url.getProtocol().contains("https")) {
+            URL lURL = new URL(url);
+            if (lURL.getProtocol().contains("https")) {
                 // Creer une communication https pour communiquer avec l'URL
-                HttpsURLConnection lHttpsURLConnection = (HttpsURLConnection) url.openConnection();
+                HttpsURLConnection lHttpsURLConnection = (HttpsURLConnection) lURL.openConnection();
                 // Connexion à l'URL
                 lHttpsURLConnection.connect();
                 // Lire le flux depuis la connexion
@@ -58,7 +60,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             else
             {
                 // Creer une communication http pour communiquer avec l'URL
-                HttpURLConnection lHttpURLConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection lHttpURLConnection = (HttpURLConnection) lURL.openConnection();
                 // Connexion à l'URL
                 lHttpURLConnection.connect();
                 // Lire le flux depuis la connexion
@@ -79,7 +81,11 @@ public class StaffeurDetailActivity extends AppCompatActivity {
         finally {
             if (lInputStream != null)
             {
-                lInputStream.close();
+                try {
+                    lInputStream.close();
+                }
+                catch(IOException e) {
+                }
             }
             else
             {
@@ -120,18 +126,27 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                             if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(i))) {
                             }
                             else {
-                                try {
-                                    URL lURL = new URL(String.format(getString(R.string.update_URL),
-                                                                     lPresenceRandonnee.lireRandonneeId(),
-                                                                     pUserId,
-                                                                     lPresenceRandonnee.lirePresence()));
-                                    if (ecrirePresences(lURL).equals("OK")) {
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG).show();
-                                    }
+                                String lURL = String.format(getString(R.string.update_URL),
+                                                            lPresenceRandonnee.lireRandonneeId(),
+                                                            pUserId,
+                                                            lPresenceRandonnee.lirePresence());
+                                if (ecrirePresences(lURL).contains("OK")) {
+                                    pListePresenceRandonneeCopie.set(i, lPresenceRandonnee);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            pListeTextView.get(i_final).setTextColor(getColor(R.color.colorRed));
+                                            pListeTextView.get(i_final).setTypeface(((TextView) pListeTextView.get(i_final)).getTypeface(), Typeface.BOLD);
+                                        }
+                                    });
                                 }
-                                catch(Exception e) {
+                                else {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(), "Mise à jour base de données impossible", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                                 }
                             }
                         }
@@ -152,6 +167,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
         for (int i=0;i < pListePresenceRandonnee.size();i++) {
             pListePresenceRandonneeCopie.add(pListePresenceRandonnee.get(i).clone());
         }
+        pListeTextView = new ArrayList<TextView>();
         pTextViewStaffeur.setText(String.format("%s (%d)", pLogin, pUserId));
         pItemRecyclerViewAdapter = new ItemRecyclerViewAdapter(pListePresenceRandonnee);
         ((RecyclerView)pRecyclerView).setAdapter(pItemRecyclerViewAdapter);
@@ -185,6 +201,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                         if (pChargement) {
+                            pListeTextView.add((TextView) view);
                             if (pPosition == (pListePresenceRandonnee.size() - 1)) {
                                 pChargement = false;
                             }

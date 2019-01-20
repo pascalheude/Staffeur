@@ -11,8 +11,8 @@
     <string name="error_incorrect_password">Mot de passe incorrect</string>
     <string name="error_field_required">Nom d\'utilisateur requis</string>
     <!--string name="login_URL">https://192.168.0.100/roulezrose/Android/Staffeur/login.php</string-->
-    <string name="login_URL">https://forum.roulezrose.com/Android/Staffeur/login.php</string>
-    <string name="update_URL">https://forum.roulezrose.com/Android/Staffeur/update.php?rando_id=%d&amp;user_id=%d&amp;valeur=%d</string>
+    <string name="login_URL">https://forum.roulezrose.com/Android/staffeur_login.php</string>
+    <string name="update_URL">https://forum.roulezrose.com/Android/staffeur_update.php?rando_id=%d&amp;user_id=%d&amp;valeur=%d</string>
     <string name="login">login</string>
     <string name="password">password</string>
     <string name="memorized_data">Memorized data</string>
