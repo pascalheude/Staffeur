@@ -142,8 +142,7 @@ public class StaffeurActivity extends AppCompatActivity {
                 lAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }});
-                // TODO Mettre un icone
-                //lAlertDialog.setIcon(R.mipmap.ic_staff);
+                lAlertDialog.setIcon(R.mipmap.ic_staffeur);
                 lAlertDialog.create().show();
                 break;
             default:

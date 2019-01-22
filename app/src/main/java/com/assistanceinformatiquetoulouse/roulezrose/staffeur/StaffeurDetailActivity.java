@@ -26,8 +26,6 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static java.lang.Thread.sleep;
-
 // Class StaffeurDetailActivity
 public class StaffeurDetailActivity extends AppCompatActivity {
     // Attributs privés
@@ -135,8 +133,8 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            pListeTextView.get(i_final).setTextColor(getColor(R.color.colorRed));
-                                            pListeTextView.get(i_final).setTypeface(((TextView) pListeTextView.get(i_final)).getTypeface(), Typeface.BOLD);
+                                            (pListeTextView.get(i_final)).setTextColor(getColor(R.color.colorRed));
+                                            (pListeTextView.get(i_final)).setTypeface(((TextView) (pListeTextView.get(i_final))).getTypeface(), Typeface.NORMAL);
                                         }
                                     });
                                 }
