@@ -250,6 +250,7 @@ public class StaffeurActivity extends AppCompatActivity {
                 ArrayList<NameValuePair> lNameValuePairList = new ArrayList<NameValuePair>();
                 lNameValuePairList.add(new BasicNameValuePair(getString(R.string.login), pLogin));
                 lNameValuePairList.add(new BasicNameValuePair(getString(R.string.password), pPassword));
+                lNameValuePairList.add(new BasicNameValuePair("nb", getString(R.string.nb_randonnee)));
                 lHttpPost.setEntity(new UrlEncodedFormEntity(lNameValuePairList));
                 lHttpResponse = lHttpClient.execute(lHttpPost);
                 // TODO Traiter les differents cas d'erreur

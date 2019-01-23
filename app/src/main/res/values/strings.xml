@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Staffeur</string>
     <string name="version">0.5.0</string>
-    <string name="login_version">1</string>
+    <string name="login_version">2</string>
     <string name="update_version">1</string>
     <string name="prompt_email">Nom d\'utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
@@ -24,4 +24,5 @@
         <item>Indécis</item>
         <item>Aucune</item>
     </string-array>
+    <string name="nb_randonnee">12</string>
 </resources>
