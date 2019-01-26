@@ -207,11 +207,17 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                             }
                         }
                         else {
-                            ((TextView) view).setTextColor(getColor(R.color.colorGreen));
-                            ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.BOLD);
                             PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(pPosition);
                             lPresenceRandonnee.ecrirePresence(pos);
                             pListePresenceRandonnee.set(pPosition, lPresenceRandonnee);
+                            if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(pos))) {
+                                ((TextView) view).setTextColor(getColor(R.color.colorRed));
+                                ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.NORMAL);
+                            }
+                            else {
+                                ((TextView) view).setTextColor(getColor(R.color.colorGreen));
+                                ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.BOLD);
+                            }
                         }
                     }
 
