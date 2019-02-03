@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Staffeur</string>
-    <string name="version">0.5.1</string>
-    <string name="login_version">2</string>
+    <string name="version">0.5.2</string>
+    <string name="login_version">3</string>
     <string name="update_version">1</string>
     <string name="prompt_email">Nom d\'utilisateur</string>
     <string name="prompt_password">Mot de passe</string>

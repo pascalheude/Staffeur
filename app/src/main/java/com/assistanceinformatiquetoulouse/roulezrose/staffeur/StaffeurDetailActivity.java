@@ -156,6 +156,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                         });
                     }
                 }).start();
+                pItemRecyclerViewAdapter.notifyDataSetChanged();
             }
         });
         pLogin = getIntent().getStringExtra(getString(R.string.login));
@@ -210,7 +211,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                             PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(pPosition);
                             lPresenceRandonnee.ecrirePresence(pos);
                             pListePresenceRandonnee.set(pPosition, lPresenceRandonnee);
-                            if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(pos))) {
+                            if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(pPosition))) {
                                 ((TextView) view).setTextColor(getColor(R.color.colorRed));
                                 ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.NORMAL);
                             }

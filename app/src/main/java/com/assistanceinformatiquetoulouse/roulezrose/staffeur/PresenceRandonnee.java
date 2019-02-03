@@ -47,7 +47,8 @@ public class PresenceRandonnee implements Serializable {
     // Méthode equals
     public boolean equals(PresenceRandonnee presence_randonnee) {
         if ((this.pPresence == presence_randonnee.pPresence) &&
-            (this.pRandoDate == presence_randonnee.pRandoDate) &&
+            (this.pRandoDate.compareTo(presence_randonnee.pRandoDate) == 0) &&
+            (this.pRandoType == presence_randonnee.pRandoType) &&
             (this.pRandoId == presence_randonnee.pRandoId)) {
             return(true);
         }

@@ -39,6 +39,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -223,11 +225,26 @@ public class StaffeurActivity extends AppCompatActivity {
         // Attributs privés
         private String pLogin;
         private String pPassword;
+        private String pErreur;
 
         // Constructeur
         ConnexionAsyncTask(String login, String password) {
-            pLogin = login;
-            pPassword = password;
+            byte[] bytes;
+            try {
+                bytes = login.getBytes("UTF-8");
+                pLogin = new String(bytes, Charset.forName("UTF-8"));
+            }
+            catch(UnsupportedEncodingException e) {
+                pLogin = null;
+            }
+            try {
+                bytes = password.getBytes("UTF-8");
+                pPassword = new String(bytes, Charset.forName("UTF-8"));
+            }
+            catch(UnsupportedEncodingException e) {
+                pPassword = null;
+            }
+            pErreur = "";
         }
 
         // Méthode doInBackground
@@ -251,10 +268,19 @@ public class StaffeurActivity extends AppCompatActivity {
                 lNameValuePairList.add(new BasicNameValuePair(getString(R.string.login), pLogin));
                 lNameValuePairList.add(new BasicNameValuePair(getString(R.string.password), pPassword));
                 lNameValuePairList.add(new BasicNameValuePair("nb", getString(R.string.nb_randonnee)));
-                lHttpPost.setEntity(new UrlEncodedFormEntity(lNameValuePairList));
+                lHttpPost.setEntity(new UrlEncodedFormEntity(lNameValuePairList, "UTF-8"));
                 lHttpResponse = lHttpClient.execute(lHttpPost);
-                // TODO Traiter les differents cas d'erreur
                 if (lHttpResponse.getStatusLine().getStatusCode() != 200) {
+                    lInputStream = lHttpResponse.getEntity().getContent();
+                    BufferedReader lBufferedReader = new BufferedReader(new InputStreamReader(lInputStream));
+                    StringBuffer lStringBuffer  = new StringBuffer();
+                    String lLigne = "";
+                    while((lLigne = lBufferedReader.readLine()) != null) {
+                        lStringBuffer.append(lLigne);
+                        lStringBuffer.append("\n");
+                    }
+                    pErreur = lStringBuffer.toString();
+                    lBufferedReader.close();
                     return(false);
                 }
                 else {
@@ -323,7 +349,7 @@ public class StaffeurActivity extends AppCompatActivity {
             if (success) {
                 finish();
             } else {
-                StaffeurActivity.pEditTextPassword.setError(getString(R.string.error_incorrect_password));
+                StaffeurActivity.pEditTextPassword.setError(pErreur);
                 StaffeurActivity.pEditTextPassword.requestFocus();
             }
         }
