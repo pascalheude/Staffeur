@@ -129,7 +129,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                                                             pUserId,
                                                             lPresenceRandonnee.lirePresence());
                                 if (ecrirePresences(lURL).contains("OK")) {
-                                    pListePresenceRandonneeCopie.set(i, lPresenceRandonnee);
+                                    pListePresenceRandonneeCopie.set(i, lPresenceRandonnee.clone());
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -152,11 +152,11 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 pProgressBar.setVisibility(View.INVISIBLE);
+                                pItemRecyclerViewAdapter.notifyDataSetChanged();
                             }
                         });
                     }
                 }).start();
-                pItemRecyclerViewAdapter.notifyDataSetChanged();
             }
         });
         pLogin = getIntent().getStringExtra(getString(R.string.login));
