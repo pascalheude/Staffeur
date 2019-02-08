@@ -266,11 +266,13 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeVerte));
                     break;
                 case 1 :
-                case 3 :
-                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeBleue));
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeDoubleBleue));
                     break;
                 case 2 :
-                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeOrange));
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeDoubleOrange));
+                    break;
+                case 3 :
+                    holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeBleue));
                     break;
                 case 4 :
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeATheme));

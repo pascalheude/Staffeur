@@ -11,7 +11,8 @@
     <color name="colorGreen">#138D75 </color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorRandonneeVerte">#5BCF5A</color>
-    <color name="colorRandonneeBleue">#0F93FF</color>
-    <color name="colorRandonneeOrange">#FF5A00</color>
+    <color name="colorRandonneeBleue">#056B9E</color>
+    <color name="colorRandonneeDoubleBleue">#0F93FF</color>
+    <color name="colorRandonneeDoubleOrange">#FF5A00</color>
     <color name="colorRandonneeATheme">#E622E0</color>
 </resources>
