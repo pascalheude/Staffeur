@@ -120,7 +120,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                                     pProgressBar.setProgress(100 * (i_final+1) / lListePresenceRandonnee.size());
                                 }
                             });
-                            PresenceRandonnee lPresenceRandonnee = lListePresenceRandonnee.get(i);
+                            final PresenceRandonnee lPresenceRandonnee = lListePresenceRandonnee.get(i);
                             if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(i))) {
                             }
                             else {
@@ -201,6 +201,13 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                         if (pChargement) {
                             pListeTextView.add((TextView) view);
+                            PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(pPosition);
+                            if (lPresenceRandonnee.lirePresence() == 1) {
+                                ((TextView) view).setTextColor(getColor(R.color.colorBlack));
+                                ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.BOLD);
+                            }
+                            else {
+                            }
                             if (pPosition == (pListePresenceRandonnee.size() - 1)) {
                                 pChargement = false;
                             }
@@ -212,8 +219,14 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                             lPresenceRandonnee.ecrirePresence(pos);
                             pListePresenceRandonnee.set(pPosition, lPresenceRandonnee);
                             if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(pPosition))) {
-                                ((TextView) view).setTextColor(getColor(R.color.colorRed));
-                                ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.NORMAL);
+                                if (lPresenceRandonnee.lirePresence() == 1) {
+                                    ((TextView) view).setTextColor(getColor(R.color.colorBlack));
+                                    ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.BOLD);
+                                }
+                                else {
+                                    ((TextView) view).setTextColor(getColor(R.color.colorRed));
+                                    ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.NORMAL);
+                                }
                             }
                             else {
                                 ((TextView) view).setTextColor(getColor(R.color.colorGreen));
@@ -284,6 +297,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorLightGrey));
             }
             if ((position % 2) == 0) {
+                holder.aRandoId.setBackgroundColor(getColor(R.color.colorLightGrey));
                 holder.aDate.setBackgroundColor(getColor(R.color.colorLightGrey));
                 holder.aPresence.setBackgroundColor(getColor(R.color.colorLightGrey));
             }
