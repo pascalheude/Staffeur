@@ -147,12 +147,29 @@ public class StaffeurActivity extends AppCompatActivity {
                 lAlertDialog.setIcon(R.mipmap.ic_staffeur);
                 lAlertDialog.create().show();
                 break;
+            case R.id.menu_effacer:
+                new AlertDialog.Builder(this)
+                        .setTitle("Confirmation")
+                        .setMessage("Effacer mémorisation login et mot de passe ?")
+                        .setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                SharedPreferences.Editor lEditor = pSharedPreferences.edit();
+                                lEditor.clear();
+                                lEditor.commit();
+                            }
+                        })
+                        .setNegativeButton("NON", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        }).show();
+                break;
             default:
                 break;
         }
         return(true);
 
     }
+
     // Méthode attemptLogin
     private void attemptLogin() {
         String login;
