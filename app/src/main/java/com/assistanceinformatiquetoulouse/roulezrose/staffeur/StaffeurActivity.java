@@ -261,7 +261,7 @@ public class StaffeurActivity extends AppCompatActivity {
             SimpleDateFormat lSimpleDateFormat;
             Date lDate;
             PresenceRandonnee lPresenceRandonnee;
-            int lPresence;
+            Presence lPresence;
 
             try {
                 ArrayList<NameValuePair> lNameValuePairList = new ArrayList<NameValuePair>();
@@ -308,16 +308,16 @@ public class StaffeurActivity extends AppCompatActivity {
                     lSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     lDate = lSimpleDateFormat.parse(lJSONObject.getString("rando_date"));
                     if (lJSONObject.getString("valeur").equals("absent")) {
-                        lPresence = 0;
+                        lPresence = Presence.ABSENT;
                     }
                     else if (lJSONObject.getString("valeur").equals("présent")) {
-                        lPresence = 1;
+                        lPresence = Presence.PRESENT;
                     }
                     else if (lJSONObject.getString("valeur").equals("indécis")) {
-                        lPresence = 2;
+                        lPresence = Presence.INDECIS;
                     }
                     else {
-                        lPresence = 3;
+                        lPresence = Presence.AUCUNE;
                     }
                     lPresenceRandonnee = new PresenceRandonnee(lJSONObject.getInt("rando_id"),
                                                                lDate,

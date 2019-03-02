@@ -1,5 +1,8 @@
 package com.assistanceinformatiquetoulouse.roulezrose.staffeur;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // Enum Presence
 public enum Presence {
     ABSENT (0),
@@ -7,34 +10,25 @@ public enum Presence {
     INDECIS (2),
     AUCUNE (3);
     private int pPresence;
+    private static Map pMap = new HashMap<>();
 
     // Constructeur
     Presence(int presence) {
             this.pPresence = presence;
         }
 
-    // méthode ecrirePresence
-    public void ecrirePresence(int presence) {
-        this.pPresence = presence;
-    }
-
-    // Méthode toString
-    public  String toString() {
-        switch(pPresence) {
-            case 0 :
-                return("Absent");
-            case 1 :
-                return("Présent");
-            case 2 :
-                return("Indécis");
-            case 3 :
-                return("Aucune");
+    static {
+        for (Presence presence : Presence.values()) {
+            pMap.put(presence.pPresence, presence);
         }
-        return("");
     }
 
-    // Méthode position
-    public int position() {
+    // Méthode getPresenceAsInt
+    public int getPresenceAsInt() {
         return(pPresence);
+    }
+
+    public static Presence valueOf(int presence) {
+        return((Presence) pMap.get(presence));
     }
 }

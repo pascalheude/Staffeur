@@ -22,7 +22,7 @@
         <item>Absent</item>
         <item>Présent</item>
         <item>Indécis</item>
-        <item>Aucune</item>
+        <item></item>
     </string-array>
     <string name="nb_randonnee">12</string>
 </resources>

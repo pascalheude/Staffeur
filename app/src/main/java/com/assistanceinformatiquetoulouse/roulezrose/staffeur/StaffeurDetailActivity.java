@@ -127,7 +127,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                                 String lURL = String.format(getString(R.string.update_URL),
                                                             lPresenceRandonnee.lireRandonneeId(),
                                                             pUserId,
-                                                            lPresenceRandonnee.lirePresence());
+                                                            lPresenceRandonnee.lirePresence().getPresenceAsInt());
                                 if (ecrirePresences(lURL).contains("OK")) {
                                     pListePresenceRandonneeCopie.set(i, lPresenceRandonnee.clone());
                                     runOnUiThread(new Runnable() {
@@ -202,7 +202,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                         if (pChargement) {
                             pListeTextView.add((TextView) view);
                             PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(pPosition);
-                            if (lPresenceRandonnee.lirePresence() == 1) {
+                            if (lPresenceRandonnee.lirePresence() == Presence.PRESENT) {
                                 ((TextView) view).setTextColor(getColor(R.color.colorBlack));
                                 ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.BOLD);
                             }
@@ -216,10 +216,11 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                         }
                         else {
                             PresenceRandonnee lPresenceRandonnee = pListePresenceRandonnee.get(pPosition);
-                            lPresenceRandonnee.ecrirePresence(pos);
+                            Presence lPresence = Presence.valueOf(pos);
+                            lPresenceRandonnee.ecrirePresence(lPresence);
                             pListePresenceRandonnee.set(pPosition, lPresenceRandonnee);
                             if (lPresenceRandonnee.equals(pListePresenceRandonneeCopie.get(pPosition))) {
-                                if (lPresenceRandonnee.lirePresence() == 1) {
+                                if (lPresenceRandonnee.lirePresence() == Presence.PRESENT) {
                                     ((TextView) view).setTextColor(getColor(R.color.colorBlack));
                                     ((TextView) view).setTypeface(((TextView) view).getTypeface(), Typeface.BOLD);
                                 }
@@ -272,7 +273,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             holder.pPosition = position;
             holder.aRandoId.setText(String.format("%d", lPresenceRandonnee.lireRandonneeId()));
             holder.aDate.setText(lSimpleDateFormat.format(lPresenceRandonnee.lireDate()));
-            holder.aPresence.setSelection(lPresenceRandonnee.lirePresence());
+            holder.aPresence.setSelection(lPresenceRandonnee.lirePresence().getPresenceAsInt());
             int rando_type = lPresenceRandonnee.lireTypeRandonnee();
             switch(rando_type) {
                 case 0 :
