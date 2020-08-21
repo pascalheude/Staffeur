@@ -60,6 +60,7 @@ public class StaffeurActivity extends AppCompatActivity {
     private ConnexionAsyncTask pConnexionAsyncTask;
     private int pUserId;
     private ArrayList<PresenceRandonnee> pListePresenceRandonnee;
+    private ConfigurationRandonnee pConfigurationRandonnee;  // Information de la table phpbb3_rando_types
 
     // Méthode onCreate
     @Override
@@ -89,6 +90,7 @@ public class StaffeurActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.connexionScrollView);
         pConnexionAsyncTask = null;
         pListePresenceRandonnee = new ArrayList<>();
+        pConfigurationRandonnee = new ConfigurationRandonnee();
         // TODO Voir si on conserve la fonction suivante
         pEditTextPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -140,7 +142,7 @@ public class StaffeurActivity extends AppCompatActivity {
                 lAlertDialog.setTitle("Staff\nVersion " + this.getString(R.string.version));
                 lAlertDialog.setMessage("Compatible login version " + this.getString(R.string.login_version) +
                         " update version " + this.getString(R.string.update_version) +
-                        "\nPrésence des staffeurs\n© AIT 2019 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
+                        "\nPrésence des staffeurs\n© AIT 2020 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
                 lAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }});
@@ -275,6 +277,7 @@ public class StaffeurActivity extends AppCompatActivity {
             JSONObject lGlobalJSONObject;
             JSONObject lJSONObject;
             JSONArray lListePresences;
+            JSONArray liste_randonnee;
             SimpleDateFormat lSimpleDateFormat;
             Date lDate;
             PresenceRandonnee lPresenceRandonnee;
@@ -318,6 +321,30 @@ public class StaffeurActivity extends AppCompatActivity {
             }
             try {
                 lGlobalJSONObject = new JSONObject(lJSONString);
+                liste_randonnee = lGlobalJSONObject.getJSONArray("couleurs_randonnée");
+                for (int i = 0; i < liste_randonnee.length(); i++) {
+                    lJSONObject = liste_randonnee.getJSONObject(i);
+                    pConfigurationRandonnee.ajouterCouleur(lJSONObject.getInt("id"),
+                            lJSONObject.getString("color"));
+                }
+            }
+            catch (JSONException e) {
+                pConfigurationRandonnee.effacerRandonnee();
+                pConfigurationRandonnee.ajouterCouleur(0,
+                                                       getColor(R.color.colorRandonneeVerte));
+                pConfigurationRandonnee.ajouterCouleur(1,
+                                                       getColor(R.color.colorRandonneeDoubleBleue));
+                pConfigurationRandonnee.ajouterCouleur(2,
+                                                       getColor(R.color.colorRandonneeDoubleOrange));
+                pConfigurationRandonnee.ajouterCouleur(3,
+                                                       getColor(R.color.colorRandonneeBleue));
+                pConfigurationRandonnee.ajouterCouleur(4,
+                                                       getColor(R.color.colorRandonneeATheme));
+                pConfigurationRandonnee.ajouterCouleur(5,
+                                                       getColor(R.color.colorRandoneeNoire));
+            }
+            try {
+                lGlobalJSONObject = new JSONObject(lJSONString);
                 pUserId = Integer.parseInt(lGlobalJSONObject.getString(getString(R.string.user_id)));
                 lListePresences = lGlobalJSONObject.getJSONArray("Présences");
                 for (int i = 0; i < lListePresences.length(); i++) {
@@ -354,6 +381,7 @@ public class StaffeurActivity extends AppCompatActivity {
             lIntent.putExtra(getString(R.string.password), pPassword);
             lIntent.putExtra(getString(R.string.user_id), pUserId);
             lIntent.putExtra(getString(R.string.liste_presence), pListePresenceRandonnee);
+            lIntent.putExtra(getString(R.string.liste_randonnee), pConfigurationRandonnee.lireListeCouleur());
             startActivity(lIntent);
             return(true);
         }

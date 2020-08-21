@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -40,6 +41,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
     private ArrayList<PresenceRandonnee> pListePresenceRandonnee;
     private ArrayList<PresenceRandonnee> pListePresenceRandonneeCopie;
     private ArrayList<TextView> pListeTextView;
+    private ConfigurationRandonnee pConfigurationRandonnee;
 
     // Méthode ecrirePresences
     private String ecrirePresences(String url) {
@@ -162,6 +164,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
         pLogin = getIntent().getStringExtra(getString(R.string.login));
         pUserId = getIntent().getIntExtra(getString(R.string.user_id), 0);
         pListePresenceRandonnee = (ArrayList<PresenceRandonnee>) getIntent().getSerializableExtra(getString(R.string.liste_presence));
+        pConfigurationRandonnee = new ConfigurationRandonnee((HashMap) getIntent().getSerializableExtra(getString(R.string.liste_randonnee)));
         pListePresenceRandonneeCopie = new ArrayList<PresenceRandonnee>();
         for (int i=0;i < pListePresenceRandonnee.size();i++) {
             pListePresenceRandonneeCopie.add(pListePresenceRandonnee.get(i).clone());
@@ -275,7 +278,8 @@ public class StaffeurDetailActivity extends AppCompatActivity {
             holder.aDate.setText(lSimpleDateFormat.format(lPresenceRandonnee.lireDate()));
             holder.aPresence.setSelection(lPresenceRandonnee.lirePresence().getPresenceAsInt());
             int rando_type = lPresenceRandonnee.lireTypeRandonnee();
-            switch(rando_type) {
+            holder.aRandoType.setBackgroundColor(pConfigurationRandonnee.lireCouleur(rando_type));
+/* TBR            switch(rando_type) {
                 case 0 :
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorRandonneeVerte));
                     break;
@@ -296,7 +300,7 @@ public class StaffeurDetailActivity extends AppCompatActivity {
                     break;
                 default :
                     holder.aRandoType.setBackgroundColor(getColor(R.color.colorLightGrey));
-            }
+            }*/
             if ((position % 2) == 0) {
                 holder.aRandoId.setBackgroundColor(getColor(R.color.colorLightGrey));
                 holder.aDate.setBackgroundColor(getColor(R.color.colorLightGrey));
